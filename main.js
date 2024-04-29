@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import inquirer from "inquirer";
 import chalk from "chalk";
 // This project is a simple console based Student Management System. In this project you will be learning how to add new students, 
