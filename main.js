@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import inquirer from "inquirer";
 import chalk from "chalk";
-// This project is a simple console based Student Management System. In this project you will be learning how to add new students, 
-// how to generate a 5 digit unique studentID for each student, how to enroll students in the given courses. Also, 
+// This project is a simple console based Student Management System. In this project you will be learning how to add new students,
+// how to generate a 5 digit unique studentID for each student, how to enroll students in the given courses. Also,
 // you will be implementing the following operations enroll, view balance, pay tuition fees, show status, etc.
 //  The status will show all the details of the student including name, id, courses enrolled and balance.
 //  This is one of the best projects to implement the Object Oriented Programming concepts.
 let kind = [];
-//looping over an array 
+//looping over an array
 const courses = {
     course1: "JavaScript",
     course2: "Python",
@@ -18,7 +18,7 @@ const courses = {
     course7: "Node.js",
     course8: "SQL",
     course9: "Machine Learning",
-    course10: "Data Structures and Algorithms"
+    course10: "Data Structures and Algorithms",
 };
 let values = Object.values(courses);
 class Student {
@@ -28,7 +28,7 @@ class Student {
     course;
     constructor(name) {
         this.name = name;
-        this.id = (Math.floor(Math.random() * 100000)); //After getting desired value ,constructor pass all  values to the class and then class crrates an object according to the blueprint. but the name of classs updated from [student to NewStudent] because of the intances we use to pass the paramter to the constructor
+        this.id = Math.floor(Math.random() * 100000); //After getting desired value ,constructor pass all  values to the class and then class crrates an object according to the blueprint. but the name of classs updated from [student to NewStudent] because of the intances we use to pass the paramter to the constructor
         this.balance = 1000;
         this.course = [];
     }
@@ -42,8 +42,15 @@ while (true) {
             message: "Please select an Option:",
             name: "option",
             type: "list",
-            choices: ["Add Student", "Enroll Student", "View Balance", "Pay tution fee", "View status", "Exit"]
-        }
+            choices: [
+                "Add Student",
+                "Enroll Student",
+                "View Balance",
+                "Pay tution fee",
+                "View status",
+                "Exit",
+            ],
+        },
     ]);
     //1) When the user selects option 1 Enroll Student
     if (answer.option === "Exit") {
@@ -60,7 +67,8 @@ while (true) {
         ]);
         let newStudent = new Student(answer1.name); // passing [answer1.name = any name written in message ] to the counstructor to create a object with thw help pf class
         console.log(chalk.yellow("---------------------------------------------------------"));
-        console.log("Dear", chalk.magenta.bold(newStudent.name), "you are added sucssesfully & Your ID number is = " + chalk.cyan(newStudent.id));
+        console.log("Dear", chalk.magenta.bold(newStudent.name), "you are added sucssesfully & Your ID number is = " +
+            chalk.cyan(newStudent.id));
         console.log(chalk.yellow("---------------------------------------------------------"));
         kind.push(newStudent);
     }
@@ -71,9 +79,10 @@ while (true) {
                 message: "Please Enter your ID number:",
                 name: "number",
                 type: "number",
-            }
+            },
         ]);
-        for (let i = 0; i < kind.length; i++) { // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+        for (let i = 0; i < kind.length; i++) {
+            // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
             if (answer2.number == kind[i].id && !isNaN(answer2.number)) {
                 let answer3 = await inquirer.prompt([
                     {
@@ -81,7 +90,7 @@ while (true) {
                         name: "course",
                         type: "list",
                         choices: values,
-                    }
+                    },
                 ]);
                 // calling enroll function to pass course in it which we select
                 kind[i].enroll(answer3.course);
@@ -98,9 +107,10 @@ while (true) {
                 message: "Please Enter your ID number:",
                 name: "number",
                 type: "number",
-            }
+            },
         ]);
-        for (let i = 0; i < kind.length; i++) { // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+        for (let i = 0; i < kind.length; i++) {
+            // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
             if (answer4.number === kind[i].id) {
                 console.log(chalk.yellow("-------------------------------------------------------------"));
                 console.log(`Dear ${chalk.blueBright.bold(kind[i].name)} your current balance is : ${chalk.green(kind[i].balance)}$`);
@@ -115,7 +125,7 @@ while (true) {
                 message: "Please Enter your ID number:",
                 name: "number",
                 type: "number",
-            }
+            },
         ]);
         for (let i = 0; i < kind.length; i++) {
             if (answer5.number === kind[i].id) {
@@ -124,7 +134,7 @@ while (true) {
                         message: "PLease enter the amount to pay:",
                         name: "amount",
                         type: "number",
-                    }
+                    },
                 ]);
                 if (answer6.amount > kind[i].balance) {
                     console.log("\n", chalk.redBright.bold("Insufficient balance"), "\n");
@@ -145,9 +155,10 @@ while (true) {
                 message: "Please Enter your ID number:",
                 name: "number",
                 type: "number",
-            }
+            },
         ]);
-        for (let i = 0; i < kind.length; i++) { // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+        for (let i = 0; i < kind.length; i++) {
+            // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
             if (answer7.number === kind[i].id) {
                 console.log(chalk.yellow("-------------------------------------------------------------"));
                 console.log(` Name = ${chalk.cyanBright(kind[i].name)} \n ID = ${chalk.cyanBright(kind[i].id)} \n Balance = ${chalk.cyanBright(kind[i].balance)} \n Course = ${chalk.cyanBright(kind[i].course)}`);
