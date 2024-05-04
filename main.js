@@ -74,95 +74,126 @@ while (true) {
     }
     //2) When the user selects option 2 Enroll Student
     if (answer.option === "Enroll Student") {
-        let answer2 = await inquirer.prompt([
-            {
-                message: "Please Enter your ID number:",
-                name: "number",
-                type: "number",
-            },
-        ]);
-        for (let i = 0; i < kind.length; i++) {
-            // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
-            if (answer2.number == kind[i].id && !isNaN(answer2.number)) {
-                let answer3 = await inquirer.prompt([
-                    {
-                        message: "Please select any course",
-                        name: "course",
-                        type: "list",
-                        choices: values,
-                    },
-                ]);
-                // calling enroll function to pass course in it which we select
-                kind[i].enroll(answer3.course);
-                console.log(chalk.yellow("---------------------------------------------------------------------------"));
-                console.log("Dear", chalk.blue.bold(kind[i].name), `you have successfully enrolled in "${chalk.cyanBright.bold(answer3.course)}" course `);
-                console.log(chalk.yellow("----------------------------------------------------------------------------"));
+        let foundID = false;
+        while (!foundID) {
+            let answer2 = await inquirer.prompt([
+                {
+                    message: "Please Enter your ID number:",
+                    name: "number",
+                    type: "number",
+                },
+            ]);
+            for (let i = 0; i < kind.length; i++) {
+                // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+                if (answer2.number == kind[i].id) {
+                    foundID = true;
+                    let answer3 = await inquirer.prompt([
+                        {
+                            message: "Please select any course",
+                            name: "course",
+                            type: "list",
+                            choices: values,
+                        },
+                    ]);
+                    // calling enroll function to pass course in it which we select
+                    kind[i].enroll(answer3.course);
+                    console.log(chalk.yellow("---------------------------------------------------------------------------"));
+                    console.log("Dear", chalk.blue.bold(kind[i].name), `you have successfully enrolled in "${chalk.cyanBright.bold(answer3.course)}" course `);
+                    console.log(chalk.yellow("----------------------------------------------------------------------------"));
+                    break;
+                }
+            }
+            if (!foundID) {
+                console.log(chalk.redBright.bold("Please enter correct ID number"));
             }
         }
     }
     //3) When the user selects option 3 View Balance
     if (answer.option === "View Balance") {
-        let answer4 = await inquirer.prompt([
-            {
-                message: "Please Enter your ID number:",
-                name: "number",
-                type: "number",
-            },
-        ]);
-        for (let i = 0; i < kind.length; i++) {
-            // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
-            if (answer4.number === kind[i].id) {
-                console.log(chalk.yellow("-------------------------------------------------------------"));
-                console.log(`Dear ${chalk.blueBright.bold(kind[i].name)} your current balance is : ${chalk.green(kind[i].balance)}$`);
-                console.log(chalk.yellow("-------------------------------------------------------------"));
+        let foundID = false;
+        while (!foundID) { // If !foundID is false then loop will dead, or if !foundID is true then loop will continue// Then read this
+            let answer4 = await inquirer.prompt([
+                {
+                    message: "Please Enter your ID number:",
+                    name: "number",
+                    type: "number",
+                },
+            ]);
+            for (let i = 0; i < kind.length; i++) {
+                // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+                if (answer4.number === kind[i].id) {
+                    foundID = true; //if this condition is true then if block execute and loop will break.but due to this !foundID becomes false/// first read this to understand the condition 
+                    console.log(chalk.yellow("-------------------------------------------------------------"));
+                    console.log(`Dear ${chalk.blueBright.bold(kind[i].name)} your current balance is : ${chalk.green(kind[i].balance)}$`);
+                    console.log(chalk.yellow("-------------------------------------------------------------"));
+                    break;
+                }
+            }
+            if (!foundID) {
+                console.log(chalk.redBright.bold("Please enter correct ID number"));
             }
         }
     }
     //4) When the user selects option 4 Pay tution fee
     if (answer.option == "Pay tution fee") {
-        let answer5 = await inquirer.prompt([
-            {
-                message: "Please Enter your ID number:",
-                name: "number",
-                type: "number",
-            },
-        ]);
-        for (let i = 0; i < kind.length; i++) {
-            if (answer5.number === kind[i].id) {
-                let answer6 = await inquirer.prompt([
-                    {
-                        message: "PLease enter the amount to pay:",
-                        name: "amount",
-                        type: "number",
-                    },
-                ]);
-                if (answer6.amount > kind[i].balance) {
-                    console.log("\n", chalk.redBright.bold("Insufficient balance"), "\n");
-                }
-                else {
-                    kind[i].balance -= answer6.amount;
-                    console.log(chalk.yellow("-------------------------------------------------------------"));
-                    console.log(` ${chalk.blueBright.bold(kind[i].name)} has paid : ${chalk.green(answer6.amount)}$ tution fee`);
-                    console.log(chalk.yellow("-------------------------------------------------------------"));
+        let foundID = false;
+        while (!foundID) {
+            let answer5 = await inquirer.prompt([
+                {
+                    message: "Please Enter your ID number:",
+                    name: "number",
+                    type: "number",
+                },
+            ]);
+            for (let i = 0; i < kind.length; i++) {
+                if (answer5.number === kind[i].id) {
+                    foundID = true;
+                    let answer6 = await inquirer.prompt([
+                        {
+                            message: "PLease enter the amount to pay:",
+                            name: "amount",
+                            type: "number",
+                        },
+                    ]);
+                    if (answer6.amount > kind[i].balance) {
+                        console.log("\n", chalk.redBright.bold("Insufficient balance"), "\n");
+                    }
+                    else {
+                        kind[i].balance -= answer6.amount;
+                        console.log(chalk.yellow("-------------------------------------------------------------"));
+                        console.log(` ${chalk.blueBright.bold(kind[i].name)} has paid : ${chalk.green(answer6.amount)}$ tution fee`);
+                        console.log(chalk.yellow("-------------------------------------------------------------"));
+                    }
+                    if (!foundID) {
+                        console.log(chalk.redBright.bold("Please enter correct ID number"));
+                    }
                 }
             }
         }
     }
     //5) when the user select option view Status
     if (answer.option === "View status") {
-        let answer7 = await inquirer.prompt([
-            {
-                message: "Please Enter your ID number:",
-                name: "number",
-                type: "number",
-            },
-        ]);
-        for (let i = 0; i < kind.length; i++) {
-            // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
-            if (answer7.number === kind[i].id) {
-                console.log(chalk.yellow("-------------------------------------------------------------"));
-                console.log(` Name = ${chalk.cyanBright(kind[i].name)} \n ID = ${chalk.cyanBright(kind[i].id)} \n Balance = ${chalk.cyanBright(kind[i].balance)} \n Course = ${chalk.cyanBright(kind[i].course)}`);
-                console.log(chalk.yellow("-------------------------------------------------------------"));
+        let foundID = false;
+        while (!foundID) {
+            let answer7 = await inquirer.prompt([
+                {
+                    message: "Please Enter your ID number:",
+                    name: "number",
+                    type: "number",
+                },
+            ]);
+            for (let i = 0; i < kind.length; i++) {
+                // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+                if (answer7.number === kind[i].id) {
+                    foundID = true;
+                    console.log(chalk.yellow("-------------------------------------------------------------"));
+                    console.log(` Name = ${chalk.cyanBright(kind[i].name)} \n ID = ${chalk.cyanBright(kind[i].id)} \n Balance = ${chalk.cyanBright(kind[i].balance)} \n Course = ${chalk.cyanBright(kind[i].course)}`);
+                    console.log(chalk.yellow("-------------------------------------------------------------"));
+                    break;
+                }
+            }
+            if (!foundID) {
+                console.log(chalk.redBright.bold("Please enter correct ID number"));
             }
         }
     }

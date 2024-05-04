@@ -103,6 +103,9 @@ while (true) {
   //2) When the user selects option 2 Enroll Student
 
   if (answer.option === "Enroll Student") {
+let foundID = false;
+
+while(!foundID) {
     let answer2 = await inquirer.prompt([
       {
         message: "Please Enter your ID number:",
@@ -111,10 +114,13 @@ while (true) {
       },
     ]);
 
+   
     for (let i = 0; i < kind.length; i++) {
       // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+     
+       if (answer2.number == kind[i].id) {
+        foundID = true;
 
-      if (answer2.number == kind[i].id && !isNaN(answer2.number)) {
         let answer3 = await inquirer.prompt([
           {
             message: "Please select any course",
@@ -143,13 +149,23 @@ while (true) {
             "----------------------------------------------------------------------------"
           )
         );
+        break;
       }
     }
-  }
+  if(!foundID) {
 
+    console.log(chalk.redBright.bold("Please enter correct ID number"))
+  }
+  }
+  }
   //3) When the user selects option 3 View Balance
 
   if (answer.option === "View Balance") {
+
+    let foundID = false;
+
+while(!foundID) { // If !foundID is false then loop will dead, or if !foundID is true then loop will continue// Then read this
+ 
     let answer4 = await inquirer.prompt([
       {
         message: "Please Enter your ID number:",
@@ -158,10 +174,13 @@ while (true) {
       },
     ]);
 
-    for (let i = 0; i < kind.length; i++) {
-      // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
-
+         
+  for (let i = 0; i < kind.length; i++) {
+    // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
+    
       if (answer4.number === kind[i].id) {
+        foundID = true;    //if this condition is true then if block execute and loop will break.but due to this !foundID becomes false/// first read this to understand the condition 
+      
         console.log(
           chalk.yellow(
             "-------------------------------------------------------------"
@@ -177,13 +196,19 @@ while (true) {
             "-------------------------------------------------------------"
           )
         );
-      }
-    }
+        break;
+   }  
   }
-
+  if(!foundID) {   
+    console.log(chalk.redBright.bold("Please enter correct ID number"))
+  }
+  }
+}
   //4) When the user selects option 4 Pay tution fee
 
   if (answer.option == "Pay tution fee") {
+    let foundID = false;
+    while(!foundID) {
     let answer5 = await inquirer.prompt([
       {
         message: "Please Enter your ID number:",
@@ -193,7 +218,9 @@ while (true) {
     ]);
 
     for (let i = 0; i < kind.length; i++) {
+
       if (answer5.number === kind[i].id) {
+        foundID = true;
         let answer6 = await inquirer.prompt([
           {
             message: "PLease enter the amount to pay:",
@@ -204,7 +231,9 @@ while (true) {
 
         if (answer6.amount > kind[i].balance) {
           console.log("\n", chalk.redBright.bold("Insufficient balance"), "\n");
+
         } else {
+
           kind[i].balance -= answer6.amount;
           console.log(
             chalk.yellow(
@@ -222,13 +251,20 @@ while (true) {
             )
           );
         }
+      if(!foundID) {
+        console.log(chalk.redBright.bold("Please enter correct ID number"))
       }
     }
   }
-
+  }
+}
   //5) when the user select option view Status
 
   if (answer.option === "View status") {
+
+    let foundID = false;
+
+    while(!foundID){
     let answer7 = await inquirer.prompt([
       {
         message: "Please Enter your ID number:",
@@ -240,6 +276,7 @@ while (true) {
     for (let i = 0; i < kind.length; i++) {
       // looping through the kind array which is present at the top of the code . to get access of every element inside of object .
       if (answer7.number === kind[i].id) {
+        foundID = true;
         console.log(
           chalk.yellow(
             "-------------------------------------------------------------"
@@ -257,7 +294,16 @@ while (true) {
             "-------------------------------------------------------------"
           )
         );
+         break;
+
       }
-    }
+    } 
+    if(!foundID) {
+
+      console.log(chalk.redBright.bold("Please enter correct ID number"))
+    }  
   }
+  }
+
 } // while loop end bracket
+
